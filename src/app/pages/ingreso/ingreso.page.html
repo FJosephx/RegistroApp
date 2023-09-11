@@ -1,0 +1,48 @@
+<!-- Página de inicio de sesión con correo y contraseña -->
+<ion-header>
+  <ion-card>
+    <ion-title class="ion-text-center">Duoc UC</ion-title>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </ion-card>
+</ion-header>
+
+<ion-content class="background">
+
+  <ion-card color="light">
+    <ion-card-header>
+
+    <ion-card-title class="ion-text-center">Bienvenido al sistema de Clases</ion-card-title>
+      <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
+      </ion-card-header>
+
+  </ion-card>
+
+<ion-card color="light">
+
+  <ion-item>
+    <ion-label position="floating">Correo</ion-label>
+    <ion-input [(ngModel)]="correo" type="email"></ion-input>
+  </ion-item>
+
+<ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="iniciarSesion()">Iniciar Sesión</ion-button>
+
+</ion-card>
+  <ion-card color="light">
+
+  
+  <ion-card-subtitle class="ion-text-center">Olvidaste tu Contraseña??</ion-card-subtitle>
+  <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer >
+  <ion-toolbar color="medium">
+    <ion-title class="ion-text-center">2023</ion-title>
+  </ion-toolbar>
+</ion-footer>

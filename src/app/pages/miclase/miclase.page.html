@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="medium">
+    <ion-title class="ion-text-center">MI CLASE</ion-title>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+
+<ion-content [fullscreen]="true" class="background">
+  
+
+
+
+
+  <ion-card>    
+    <ion-item color="secondary">
+      <ion-label>Sede</ion-label>
+      <ion-text>{{ datosQR.sede }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="primary">
+      <ion-label>ID Asignatura</ion-label>
+      <ion-text>{{ datosQR.idAsignatura }}</ion-text>
+    </ion-item>
+  </ion-card>  
+
+<ion-card> 
+    <ion-item color="secondary">
+      <ion-label>Sección</ion-label>
+      <ion-text>{{ datosQR.seccion }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="primary">
+      <ion-label>Nombre Asignatura</ion-label>
+      <ion-text>{{ datosQR.nombreAsignatura }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="secondary">
+      <ion-label>Nombre Profesor</ion-label>
+      <ion-text>{{ datosQR.nombreProfesor }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="primary"> 
+      <ion-label>Día</ion-label>
+      <ion-text>{{ datosQR.dia }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="secondary">
+      <ion-label>Bloque Inicio</ion-label>
+      <ion-text>{{ datosQR.bloqueInicio }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="primary">
+      <ion-label>Bloque Término</ion-label>
+      <ion-text>{{ datosQR.bloqueTermino }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="secondary">
+      <ion-label>Hora Inicio</ion-label>
+      <ion-text>{{ datosQR.horaInicio }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+  <ion-card> 
+    <ion-item color="primary">
+      <ion-label>Hora Fin</ion-label>
+      <ion-text>{{ datosQR.horaFin }}</ion-text>
+    </ion-item>
+  </ion-card>
+
+    <!-- Continúa mostrando otros datos del QR aquí -->
+
+
+
+</ion-content>
+
+<ion-footer >
+  <ion-toolbar color="medium">
+    <ion-title class="ion-text-center">2023</ion-title>
+  </ion-toolbar>
+</ion-footer>
