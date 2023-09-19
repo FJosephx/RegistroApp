@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import jsQR from 'jsqr';
@@ -8,7 +8,7 @@ import jsQR from 'jsqr';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage {
+export class InicioPage implements OnInit{
   nombreUsuario = '';
 
   constructor(private router: Router) {
@@ -18,40 +18,48 @@ export class InicioPage {
     }
   }
 
+
+  ngOnInit() {
+    this.abrirCamara();
+  }
+
+
   async abrirCamara() {
     try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.DataUrl,
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const videoElement = document.createElement('video');
+      document.body.appendChild(videoElement);
+      videoElement.srcObject = stream;
+      videoElement.play();
 
-      
-      if (image.dataUrl !== undefined && image.dataUrl.trim() !== '') {
-        console.log('Imagen capturada:', image.dataUrl);
-
-        // Decodifica el contenido del código QR utilizando jsQR
-        const qrData = await this.decodificarQR(image.dataUrl);
-
-        if (qrData) {
-          // Almacena los datos del QR
-          console.log('Datos del QR:', qrData); //Verificamos en consola
-          // Redirige a la página "miclase" y pasa los datos como parámetros
-          this.router.navigate(['/miclase'], {
-            queryParams: { datosQR: qrData },
-          });
-        } else {
-          
-          console.error('Código QR no válido.');
+      // Inicia la detección de códigos QR en el flujo de video
+      videoElement.addEventListener('loadedmetadata', () => {
+        const canvasElement = document.createElement('canvas');
+        const canvasContext = canvasElement.getContext('2d');
+        if (!canvasContext) {
+          console.error('Contexto de lienzo no disponible');
+          return;
         }
-      } else {
-        
-        console.error('URL de datos de imagen indefinida.');
-      }
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+        setInterval(() => {
+          canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+          const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (code) {
+            console.log('Datos del QR:', code.data);
+            // Redirige a la página "miclase" y pasa los datos como parámetros
+            this.router.navigate(['/miclase'], {
+              queryParams: { datosQR: code.data },
+            });
+          }
+        }, 1000); // Intervalo de detección cada segundo
+      });
     } catch (error) {
       console.error('Error al abrir la cámara:', error);
     }
   }
+
 
   async decodificarQR(dataUrl: string): Promise<string | null> {
     // Convierte el Data URL en una imagen HTML
