@@ -1,19 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Camera, CameraResultType } from '@capacitor/camera';
-import jsQR from 'jsqr';
+import { LoadingController } from '@ionic/angular';
+import jsQR, { QRCode } from 'jsqr';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit, OnDestroy{
+export class InicioPage {
   nombreUsuario = '';
-  private videoElement: HTMLVideoElement | null = null;
-  private stream: MediaStream | null = null;
+  private loading: HTMLIonLoadingElement | undefined;
+  public escaneando = false;
+  public datosQR = '';
 
-  constructor(private router: Router) {
+  @ViewChild('video', { static: false }) private video!: ElementRef;
+  @ViewChild('canvas', { static: false }) private canvas!: ElementRef;
+
+  constructor(private router: Router, private loadingController: LoadingController) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state && state['nombreUsuario']) {
       this.nombreUsuario = state['nombreUsuario'];
@@ -21,101 +25,69 @@ export class InicioPage implements OnInit, OnDestroy{
   }
 
 
-  ngOnInit() {
-    this.abrirCamara();
-  }
+  public obtenerDatosQR(source?: CanvasImageSource): boolean {
+    let w = 0;
+    let h = 0;
+    if (!source) {
+      this.canvas.nativeElement.width = this.video.nativeElement.videoWidth;
+      this.canvas.nativeElement.height = this.video.nativeElement.videoHeight;
+    }
 
-  ngOnDestroy() {
-    this.detenerCamara();
-  }
+    w = this.canvas.nativeElement.width;
+    h = this.canvas.nativeElement.height;
 
-  async abrirCamara() {
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      this.videoElement = document.createElement('video');
-      this.videoElement.id = 'cameraPreview';
-      document.body.appendChild(this.videoElement);
-      this.videoElement.srcObject = this.stream;
-      this.videoElement.play();
-  
-      // Inicia la detección de códigos QR en el flujo de video
-      this.videoElement.addEventListener('loadedmetadata', () => {
-        const canvasElement = document.createElement('canvas');
-        const canvasContext = canvasElement.getContext('2d');
-        if (!canvasContext) {
-          console.error('Contexto de lienzo no disponible');
-          return;
-        }
-        canvasElement.width = this.videoElement?.videoWidth ?? 0;
-        canvasElement.height = this.videoElement?.videoHeight ?? 0;
-        const intervalId = setInterval(() => {
-          if (!this.videoElement || !canvasContext) {
-            clearInterval(intervalId);
-            return;
-          }
-          canvasContext.drawImage(this.videoElement, 0, 0, canvasElement.width, canvasElement.height);
-          const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code) {
-            console.log('Datos del QR:', code.data);
-            // Redirige a la página "miclase" y pasa los datos como parámetros
-            this.router.navigate(['/miclase'], {
-              queryParams: { datosQR: code.data },
-            });
-            // Detén la cámara después de escanear el QR
-            this.detenerCamara();
-          }
-        }, 2000); // Intervalo de detección cada segundo
+    const context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext('2d');
+    context.drawImage(source ? source : this.video.nativeElement, 0, 0, w, h);
+    const img: ImageData = context.getImageData(0, 0, w, h);
+    const qrCode: QRCode | null = jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
+    if (qrCode) {
+      this.escaneando = false;
+      this.datosQR = qrCode.data;
+
+      // Redirige a la página "miclase" y pasa los datos como parámetros
+      this.router.navigate(['/miclase'], {
+        queryParams: { datosQR: this.datosQR },
       });
+    }
+
+    return this.datosQR != '';
+  }
+
+  public async comenzarEscaneoQR() {
+    try {
+      const mediaProvider: MediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      this.video.nativeElement.srcObject = mediaProvider;
+      this.video.nativeElement.setAttribute('playsinline', 'true');
+      this.loading = await this.loadingController.create({});
+      await this.loading.present();
+      this.video.nativeElement.play();
+      requestAnimationFrame(this.verificarVideo.bind(this));
     } catch (error) {
       console.error('Error al abrir la cámara:', error);
     }
   }
 
-  private detenerCamara() {
-    if (this.stream) {
-      this.stream.getTracks().forEach((track) => track.stop());
-    }
-    if (this.videoElement) {
-      this.videoElement.pause();
-      this.videoElement.srcObject = null;
-    }
-  }
-
-
-  async decodificarQR(dataUrl: string): Promise<string | null> {
-    // Convierte el Data URL en una imagen HTML
-    const img = new Image();
-    img.src = dataUrl;
-  
-    return new Promise<string | null>((resolve) => {
-      // Espera a que la imagen se cargue completamente
-      img.onload = () => {
-        // Crea un canvas para procesar la imagen
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        context?.drawImage(img, 0, 0, img.width, img.height);
-  
-        // Obtiene los datos del QR utilizando jsQR
-        const imageData = context?.getImageData(0, 0, img.width, img.height);
-        if (imageData) {
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code) {
-            resolve(code.data);
-          } else {
-            resolve(null);
-          }
-        } else {
-          resolve(null);
+  async verificarVideo() {
+    if (this.video.nativeElement.readyState === this.video.nativeElement.HAVE_ENOUGH_DATA) {
+      if (this.loading) {
+        await this.loading.dismiss();
+        this.escaneando = true;
+      }
+      if (this.obtenerDatosQR()) {
+        console.log('Datos obtenidos');
+      } else {
+        if (this.escaneando) {
+          console.log('Escaneando...');
+          requestAnimationFrame(this.verificarVideo.bind(this));
         }
-      };
-  
-      // Maneja el caso en que la imagen no se pueda cargar
-      img.onerror = () => {
-        resolve(null);
-      };
-    });
+      }
+    } else {
+      console.log('El video aún no obtiene datos');
+      requestAnimationFrame(this.verificarVideo.bind(this));
+    }
   }
+
 }

@@ -23,10 +23,15 @@
 
 
   <ion-card color="light">
-   <video id="cameraPreview" autoplay playsinline></video>
-   <ion-button expand="full" routerLink="/ingreso">Cerrar Sesión</ion-button>
-  
+   <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full">
+    <ion-icon slot="start" name="videocam-outline"></ion-icon>
+    Escanear QR
+   </ion-button>
 
+   <video #video [hidden]="!escaneando" width="100%" height="350px"></video>
+   <canvas #canvas hidden></canvas>
+
+   <ion-button expand="full" routerLink="/ingreso">Cerrar Sesión</ion-button>
   </ion-card>
 
 
