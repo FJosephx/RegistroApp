@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import jsQR from 'jsqr';
@@ -8,8 +8,10 @@ import jsQR from 'jsqr';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit{
+export class InicioPage implements OnInit, OnDestroy{
   nombreUsuario = '';
+  private videoElement: HTMLVideoElement | null = null;
+  private stream: MediaStream | null = null;
 
   constructor(private router: Router) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -23,6 +25,9 @@ export class InicioPage implements OnInit{
     this.abrirCamara();
   }
 
+  ngOnDestroy() {
+    this.detenerCamara();
+  }
 
   async abrirCamara() {
     try {
@@ -52,11 +57,22 @@ export class InicioPage implements OnInit{
             this.router.navigate(['/miclase'], {
               queryParams: { datosQR: code.data },
             });
+            this.detenerCamara();
           }
-        }, 1000); // Intervalo de detección cada segundo
+        }, 2000); // Intervalo de detección cada segundo
       });
     } catch (error) {
       console.error('Error al abrir la cámara:', error);
+    }
+  }
+
+  private detenerCamara() {
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
+    }
+    if (this.videoElement) {
+      this.videoElement.pause();
+      this.videoElement.srcObject = null;
     }
   }
 
