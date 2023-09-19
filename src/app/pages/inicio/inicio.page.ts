@@ -31,24 +31,29 @@ export class InicioPage implements OnInit, OnDestroy{
 
   async abrirCamara() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const videoElement = document.createElement('video');
-      document.body.appendChild(videoElement);
-      videoElement.srcObject = stream;
-      videoElement.play();
-
+      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      this.videoElement = document.createElement('video');
+      this.videoElement.id = 'cameraPreview';
+      document.body.appendChild(this.videoElement);
+      this.videoElement.srcObject = this.stream;
+      this.videoElement.play();
+  
       // Inicia la detección de códigos QR en el flujo de video
-      videoElement.addEventListener('loadedmetadata', () => {
+      this.videoElement.addEventListener('loadedmetadata', () => {
         const canvasElement = document.createElement('canvas');
         const canvasContext = canvasElement.getContext('2d');
         if (!canvasContext) {
           console.error('Contexto de lienzo no disponible');
           return;
         }
-        canvasElement.width = videoElement.videoWidth;
-        canvasElement.height = videoElement.videoHeight;
-        setInterval(() => {
-          canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+        canvasElement.width = this.videoElement?.videoWidth ?? 0;
+        canvasElement.height = this.videoElement?.videoHeight ?? 0;
+        const intervalId = setInterval(() => {
+          if (!this.videoElement || !canvasContext) {
+            clearInterval(intervalId);
+            return;
+          }
+          canvasContext.drawImage(this.videoElement, 0, 0, canvasElement.width, canvasElement.height);
           const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
           const code = jsQR(imageData.data, imageData.width, imageData.height);
           if (code) {
@@ -57,6 +62,7 @@ export class InicioPage implements OnInit, OnDestroy{
             this.router.navigate(['/miclase'], {
               queryParams: { datosQR: code.data },
             });
+            // Detén la cámara después de escanear el QR
             this.detenerCamara();
           }
         }, 2000); // Intervalo de detección cada segundo
