@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>contrasenia-correcta</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">contrasenia-correcta</ion-title>
+<!-- Página que muestra mensaje cuando la 
+  respuesta a pregunta secreta es incorrecta -->
+  <ion-header>
+    <ion-toolbar color="medium">
+      <ion-title class="ion-text-center">Duoc UC</ion-title>
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
     </ion-toolbar>
   </ion-header>
+  
+  <ion-content class="background">
+  
+    <ion-card color="light">
+      <ion-card-header>
+  
+        
+        <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
+      </ion-card-header>
+  
+    </ion-card>
+  <ion-card> 
+
+  
+    <ion-title  class="ion-text-center" color="success">¡Respuesta Correcta!</ion-title>
+ 
+  </ion-card> 
+
+
+  <ion-card> 
+    <ion-button expand="full" routerLink="/ingreso">Regresar</ion-button>
+  </ion-card> 
+
 </ion-content>
+  <ion-footer >
+    <ion-toolbar color="medium">
+      <ion-title class="ion-text-center">2023</ion-title>
+    </ion-toolbar>
+  </ion-footer>
