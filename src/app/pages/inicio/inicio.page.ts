@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Camera, CameraResultType } from '@capacitor/camera';
-import jsQR from 'jsqr';
+import { LoadingController } from '@ionic/angular';
+import jsQR, { QRCode } from 'jsqr';
 
 @Component({
   selector: 'app-inicio',
@@ -10,120 +10,84 @@ import jsQR from 'jsqr';
 })
 export class InicioPage {
   nombreUsuario = '';
+  private loading: HTMLIonLoadingElement | undefined;
+  public escaneando = false;
+  public datosQR = '';
 
-  constructor(private router: Router) {
+  @ViewChild('video', { static: false }) private video!: ElementRef;
+  @ViewChild('canvas', { static: false }) private canvas!: ElementRef;
+
+  constructor(private router: Router, private loadingController: LoadingController) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state && state['nombreUsuario']) {
       this.nombreUsuario = state['nombreUsuario'];
     }
   }
 
-  async abrirCamara() {
+
+  public obtenerDatosQR(source?: CanvasImageSource): boolean {
+    let w = 0;
+    let h = 0;
+    if (!source) {
+      this.canvas.nativeElement.width = this.video.nativeElement.videoWidth;
+      this.canvas.nativeElement.height = this.video.nativeElement.videoHeight;
+    }
+
+    w = this.canvas.nativeElement.width;
+    h = this.canvas.nativeElement.height;
+
+    const context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext('2d');
+    context.drawImage(source ? source : this.video.nativeElement, 0, 0, w, h);
+    const img: ImageData = context.getImageData(0, 0, w, h);
+    const qrCode: QRCode | null = jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
+    if (qrCode) {
+      this.escaneando = false;
+      this.datosQR = qrCode.data;
+
+      // Redirige a la página "miclase" y pasa los datos como parámetros
+      this.router.navigate(['/miclase'], {
+        queryParams: { datosQR: this.datosQR },
+      });
+    }
+
+    return this.datosQR != '';
+  }
+
+  public async comenzarEscaneoQR() {
     try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.DataUrl,
+      const mediaProvider: MediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
       });
 
-      
-      if (image.dataUrl !== undefined && image.dataUrl.trim() !== '') {
-        console.log('Imagen capturada:', image.dataUrl);
-
-        // Decodifica el contenido del código QR utilizando jsQR
-        const qrData = await this.decodificarQR(image.dataUrl);
-
-        if (qrData) {
-          // Almacena los datos del QR
-          console.log('Datos del QR:', qrData); //Verificamos en consola
-          // Redirige a la página "miclase" y pasa los datos como parámetros
-          this.router.navigate(['/miclase'], {
-            queryParams: { datosQR: qrData },
-          });
-        } else {
-          
-          console.error('Código QR no válido.');
-        }
-      } else {
-        
-        console.error('URL de datos de imagen indefinida.');
-      }
+      this.video.nativeElement.srcObject = mediaProvider;
+      this.video.nativeElement.setAttribute('playsinline', 'true');
+      this.loading = await this.loadingController.create({});
+      await this.loading.present();
+      this.video.nativeElement.play();
+      requestAnimationFrame(this.verificarVideo.bind(this));
     } catch (error) {
       console.error('Error al abrir la cámara:', error);
     }
   }
 
-  async subirArchivo() {
-    const fileInput = document.createElement('input');
-    fileInput.setAttribute('type', 'file');
-    fileInput.setAttribute('accept', 'image/*');
-
-    fileInput.addEventListener('change', async () => {
-      if (fileInput.files && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
-          if (e.target) {
-            const dataUrl = e.target.result as string;
-
-            // Decodificar el contenido del código QR utilizando jsQR
-            const qrData = await this.decodificarQR(dataUrl);
-
-            if (qrData) {
-              // Almacena los datos del QR
-              console.log('Datos del QR:', qrData); //Verificamos en consola
-              // Redirige a la página "miclase" y pasa los datos como parámetros
-              this.router.navigate(['/miclase'], {
-                queryParams: { datosQR: qrData },
-              });
-            } else {
-              
-              console.error('Código QR no válido.');
-            }
-          }
-        };
-
-        reader.readAsDataURL(file);
+  async verificarVideo() {
+    if (this.video.nativeElement.readyState === this.video.nativeElement.HAVE_ENOUGH_DATA) {
+      if (this.loading) {
+        await this.loading.dismiss();
+        this.escaneando = true;
       }
-    });
-
-    fileInput.click();
-  }
-
-  async decodificarQR(dataUrl: string): Promise<string | null> {
-    // Convierte el Data URL en una imagen HTML
-    const img = new Image();
-    img.src = dataUrl;
-  
-    return new Promise<string | null>((resolve) => {
-      // Espera a que la imagen se cargue completamente
-      img.onload = () => {
-        // Crea un canvas para procesar la imagen
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        context?.drawImage(img, 0, 0, img.width, img.height);
-  
-        // Obtiene los datos del QR utilizando jsQR
-        const imageData = context?.getImageData(0, 0, img.width, img.height);
-        if (imageData) {
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code) {
-            resolve(code.data);
-          } else {
-            resolve(null);
-          }
-        } else {
-          resolve(null);
+      if (this.obtenerDatosQR()) {
+        console.log('Datos obtenidos');
+      } else {
+        if (this.escaneando) {
+          console.log('Escaneando...');
+          requestAnimationFrame(this.verificarVideo.bind(this));
         }
-      };
-  
-      // Maneja el caso en que la imagen no se pueda cargar
-      img.onerror = () => {
-        resolve(null);
-      };
-    });
+      }
+    } else {
+      console.log('El video aún no obtiene datos');
+      requestAnimationFrame(this.verificarVideo.bind(this));
+    }
   }
+
 }
