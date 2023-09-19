@@ -53,44 +53,6 @@ export class InicioPage {
     }
   }
 
-  async subirArchivo() {
-    const fileInput = document.createElement('input');
-    fileInput.setAttribute('type', 'file');
-    fileInput.setAttribute('accept', 'image/*');
-
-    fileInput.addEventListener('change', async () => {
-      if (fileInput.files && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
-          if (e.target) {
-            const dataUrl = e.target.result as string;
-
-            // Decodificar el contenido del código QR utilizando jsQR
-            const qrData = await this.decodificarQR(dataUrl);
-
-            if (qrData) {
-              // Almacena los datos del QR
-              console.log('Datos del QR:', qrData); //Verificamos en consola
-              // Redirige a la página "miclase" y pasa los datos como parámetros
-              this.router.navigate(['/miclase'], {
-                queryParams: { datosQR: qrData },
-              });
-            } else {
-              
-              console.error('Código QR no válido.');
-            }
-          }
-        };
-
-        reader.readAsDataURL(file);
-      }
-    });
-
-    fileInput.click();
-  }
-
   async decodificarQR(dataUrl: string): Promise<string | null> {
     // Convierte el Data URL en una imagen HTML
     const img = new Image();
