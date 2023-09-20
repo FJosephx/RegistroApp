@@ -4,12 +4,12 @@
   <br />
   <br />
 
-  <ion-card class="cardcontenido" color="light">
+  <ion-card class="cardcontenido">
     <div id="container">
 
     <ion-card-header>
       <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
-      <ion-card-title class="ion-text-center">Bienvenido al sistema de Clases</ion-card-title>
+      <ion-card-title class="ion-text-center texto">Bienvenido al sistema de Clases</ion-card-title>
     </ion-card-header>
     </div>
 
@@ -20,18 +20,18 @@
   <br />
 
 
-  <ion-card class="cardcontenido" color="light">
-    <div id="container" >
+  <ion-card class="cardcontenido">
+    <div id="container">
 
       <ion-card-header >
         
-        <ion-input  type="email" fill="clear" label="Email" labelPlacement="floating" helperText="Ingresa tu correo" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
+        <ion-input class="texto" type="email" fill="clear" label="Correo" labelPlacement="floating" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
         
-        <br />
+        <br>
 
-        <ion-input type="password" fill="clear" label="Password" labelPlacement="floating" helperText="Ingresa tu contraseña" errorText="Contraseña invalida" [(ngModel)]="contrasena" ></ion-input>
+        <ion-input class="texto" type="password" fill="clear" label="Contraseña" labelPlacement="floating" errorText="Contraseña invalida" [(ngModel)]="contrasena" ></ion-input>
         
-        <br />
+        <br>
 
         <ion-button  (click)="iniciarSesion()">Iniciar Sesión</ion-button>
 

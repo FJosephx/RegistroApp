@@ -20,9 +20,9 @@
   
 
 
-  <ion-card color="light" class="cardcontenido">
+  <ion-card class="cardcontenido">
     
-    <ion-card-title class="ion-text-center">¡Bienvenido!, {{ nombreUsuario }}</ion-card-title>
+    <ion-card-title class="ion-text-center" color="success">¡Bienvenido! {{ nombreUsuario }}</ion-card-title>
    <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full">
     <ion-icon slot="start" name="videocam-outline"></ion-icon>
     Escanear QR

@@ -4,8 +4,12 @@ ion-content.background{
 
 .cardcontenido {     
     float: unset !important;  
-    background: rgba(255,255,255,0.5);
+    background: rgba(0, 0, 0, 0.5);
     background-repeat: no-repeat;
     background-size: 110%;
     background-position: 0% 14%;     
-  }    
+  }   
+
+.texto {
+    color: greenyellow;
+}

@@ -17,14 +17,14 @@
 
   
 
- <ion-card class="cardcontenido" color="light">
+ <ion-card class="cardcontenido">
   <div class="container"> 
     
       
 
     <ion-card-header >
-      <ion-card-title class="ion-text-center">Ingresa tu correo</ion-card-title>
-      <ion-input  type="email" fill="clear" label="Email" labelPlacement="floating" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
+      <ion-card-title class="ion-text-center label">Ingresa tu correo</ion-card-title>
+      <ion-input class="label" type="email" fill="clear" label="Correo" labelPlacement="floating" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
       <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
      
     </ion-card-header>
