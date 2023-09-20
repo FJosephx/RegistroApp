@@ -29,6 +29,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/contrasenia-incorrecta/contrasenia-incorrecta.module').then( m => m.ContraseniaIncorrectaPageModule)
   },
   {
+    path: 'contrasenia-correcta',
+    loadChildren: () => import('./pages/contrasenia-correcta/contrasenia-correcta.module').then( m => m.ContraseniaCorrectaPageModule)
+  },
+  {
     path: 'recuperar-contrasenia',
     loadChildren: () => import('./pages/recuperar-contrasenia/recuperar-contrasenia.module').then( m => m.RecuperarContraseniaPageModule)
   },

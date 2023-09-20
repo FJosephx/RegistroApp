@@ -28,7 +28,7 @@ export class PreguntaSecretaPage {
     if (this.usuario && this.respuestaSecreta === this.usuario.respuestaCorrecta) {
       this.mostrarToast('Contraseña recuperada exitosamente. Contraseña: ' + this.usuario.contrasena);
       // Respuesta correcta, redirigir a la página de contrasenia-correcta
-      this.router.navigate(['/ingreso'],
+      this.router.navigate(['/contrasenia-correcta'],
       );
     } else {
       // Respuesta incorrecta, mostrar mensaje de error
