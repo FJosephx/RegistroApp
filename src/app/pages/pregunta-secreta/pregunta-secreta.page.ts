@@ -23,13 +23,12 @@ export class PreguntaSecretaPage {
     }
   }
 
+
   verificarRespuesta() {
-    console.log(this.usuario)
+    console.log(this.usuario);
     if (this.usuario && this.respuestaSecreta === this.usuario.respuestaCorrecta) {
-      this.mostrarToast('Contraseña recuperada exitosamente. Contraseña: ' + this.usuario.contrasena);
-      // Respuesta correcta, redirigir a la página de contrasenia-correcta
-      this.router.navigate(['/contrasenia-correcta'],
-      );
+      // Respuesta correcta, redirigir a la página de contraseña correcta con la contraseña como parámetro
+      this.router.navigate(['/contrasenia-correcta', { contrasena: this.usuario.contrasena }]);
     } else {
       // Respuesta incorrecta, mostrar mensaje de error
       this.router.navigate(['/contrasenia-incorrecta']);
