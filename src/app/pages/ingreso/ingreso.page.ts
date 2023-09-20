@@ -35,8 +35,8 @@ export class IngresoPage {
       contrasena: '1234',
       nombre: 'Matias',
       apellido: 'Rodriguez',
-      preguntaSecreta: '¿Prefieres Autos o Motos?',
-      respuestaCorrecta: 'Motos',
+      preguntaSecreta: 'Color Favorito',
+      respuestaCorrecta: 'azul',
       respuestaIncorrecta: 'gatos'
     }
 

@@ -1,48 +1,75 @@
 <!-- Página de inicio de sesión con correo y contraseña -->
-<ion-header>
-  <ion-card>
-    <ion-title class="ion-text-center">Duoc UC</ion-title>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-  </ion-card>
-</ion-header>
+<ion-content  fullscreen class="background">
+  <br />
+  <br />
+  <br />
 
-<ion-content class="background">
+  <ion-card class="cardcontenido" color="light">
+    <div id="container">
 
-  <ion-card color="light">
     <ion-card-header>
-
-    <ion-card-title class="ion-text-center">Bienvenido al sistema de Clases</ion-card-title>
       <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
+      <ion-card-title class="ion-text-center">Bienvenido al sistema de Clases</ion-card-title>
+    </ion-card-header>
+    </div>
+
+  </ion-card>
+
+  <br />
+  <br />
+  <br />
+
+
+  <ion-card class="cardcontenido" color="light">
+    <div id="container" >
+
+      <ion-card-header >
+        
+        <ion-input  type="email" fill="clear" label="Email" labelPlacement="floating" helperText="Ingresa tu correo" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
+        
+        <br />
+
+        <ion-input type="password" fill="clear" label="Password" labelPlacement="floating" helperText="Ingresa tu contraseña" errorText="Contraseña invalida" [(ngModel)]="contrasena" ></ion-input>
+        
+        <br />
+
+        <ion-button  (click)="iniciarSesion()">Iniciar Sesión</ion-button>
+
       </ion-card-header>
 
+    </div>
+    
   </ion-card>
 
-<ion-card color="light">
 
-  <ion-item>
-    <ion-label position="floating">Correo</ion-label>
-    <ion-input [(ngModel)]="correo" type="email"></ion-input>
-  </ion-item>
 
-<ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
-  </ion-item>
 
-  <ion-button expand="full" (click)="iniciarSesion()">Iniciar Sesión</ion-button>
+  <br />
 
-</ion-card>
-  <ion-card color="light">
+ 
+<ion-card class="cardcontenido">
+<div class="container"> 
+  
+  <ion-card-header >
+    <ion-button  routerLink="/recuperar-contrasenia">Recuperar Contraseña</ion-button>
+  </ion-card-header>
+
+</div> 
+ </ion-card> 
+  
+  
+  
+
+
+
 
   
-  <ion-card-subtitle class="ion-text-center">Olvidaste tu Contraseña??</ion-card-subtitle>
-  <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
-  </ion-card>
-
 </ion-content>
 
-<ion-footer >
-  <ion-toolbar color="medium">
-    <ion-title class="ion-text-center">2023</ion-title>
-  </ion-toolbar>
+<ion-footer>
+  <div class="container">
+    
+    <h6   class="ion-text-center" >Genialtech since 2023</h6>
+    
+  </div>
 </ion-footer>

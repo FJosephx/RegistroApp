@@ -1,37 +1,50 @@
 <!-- Página que muestra mensaje de error cuando 
   la respuesta a pregunta secreta es incorrecta -->
-  <ion-header>
-    <ion-toolbar color="medium">
-      <ion-title class="ion-text-center">Duoc UC</ion-title>
-      <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content class="background">
-  
-    <ion-card color="light">
-      <ion-card-header>
-  
+  <ion-content [fullscreen]="true" class="background">
+    <ion-header >
+      
         
-        <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
+      <ion-card class="cardcontenido">
+        <ion-item>
+          <ion-title>RECUPERAR CONTRASEÑA</ion-title>
+          <ion-img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png"/>
+        </ion-item>
+      </ion-card> 
+     
+  
+    </ion-header>
+    
+  
+    
+  
+   <ion-card class="cardcontenido" color="light">
+    
+    <div class="container">  
+  
+      <ion-card-header >
+<ion-card-title class="ion-text-center">Lo sentimos pero los datos ingresados son incorrectos</ion-card-title>
+
+        <ion-img    alt="pulgar abajo" src="https://media.istockphoto.com/id/854192164/es/foto/pulgar-dando-estudiante-masculino-abajo.jpg?s=1024x1024&w=is&k=20&c=j_lUs4kf_Adtnxswb1iVcRhQ-Xh0gtowzUdwKxnAahQ="></ion-img>
+       <ion-button expand="full" routerLink="/recuperar-contrasenia">Regresar</ion-button>
       </ion-card-header>
+       
+    </div> 
+
+  </ion-card>
   
-    </ion-card>
-  <ion-card> 
-
   
-    <ion-title  class="ion-text-center" color="danger">¡Respuesta Incorrecta!</ion-title>
- 
-  </ion-card> 
-
-
-  <ion-card> 
-    <ion-button expand="full" routerLink="/ingreso">Regresar</ion-button>
-  </ion-card> 
-
-</ion-content>
-  <ion-footer >
-    <ion-toolbar color="medium">
-      <ion-title class="ion-text-center">2023</ion-title>
-    </ion-toolbar>
-  </ion-footer>
+  
+  
+  
+   
+  
+  
+  
+  </ion-content>
+    <ion-footer>
+      <div class="container">
+        
+        <h6   class="ion-text-center" >Genialtech since 2023</h6>
+        
+      </div>
+    </ion-footer>
