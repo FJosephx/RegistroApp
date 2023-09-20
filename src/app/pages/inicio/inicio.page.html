@@ -1,28 +1,28 @@
 <!-- Página de inicio de sesión con correo y contraseña -->
-<ion-header [translucent]="true">
-  <ion-toolbar color="medium">
-    <ion-title class="ion-text-center">INICIO</ion-title>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-  </ion-toolbar>
-</ion-header>
+<ion-content  fullscreen class="background">
 
-<ion-content class="background" [fullscreen]="true">
-
-  <ion-card color="light">
-    <ion-card-header>
-
+  <ion-header >
     
-    <img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
-    </ion-card-header>
+      
+      <ion-card class="cardcontenido">
+     <ion-item>
+      <ion-title>SISTEMA DE ASITENCIA</ion-title>
+     <ion-img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png"/>
+     </ion-item>
+        </ion-card> 
+     
 
-  </ion-card>
+  </ion-header>
 
-  <ion-card color="light">
-    <ion-title class="ion-text-center">Bienvenido, {{ nombreUsuario }}</ion-title>
-  </ion-card>
+  <br />
+  <br />
+  <br />
+  
 
 
-  <ion-card color="light">
+  <ion-card color="light" class="cardcontenido">
+    
+    <ion-card-title class="ion-text-center">¡Bienvenido!, {{ nombreUsuario }}</ion-card-title>
    <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full">
     <ion-icon slot="start" name="videocam-outline"></ion-icon>
     Escanear QR
@@ -37,10 +37,16 @@
 
 </ion-content>
 
-<ion-footer >
-  <ion-toolbar color="medium">
-    <ion-title class="ion-text-center">2023</ion-title>
-  </ion-toolbar>
+
+
+
+
+<ion-footer>
+  <div class="container">
+    
+    <h6   class="ion-text-center" >Genialtech since 2023</h6>
+    
+  </div>
 </ion-footer>
 
 

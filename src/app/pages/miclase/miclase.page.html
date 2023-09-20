@@ -1,93 +1,119 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="medium">
-    <ion-title class="ion-text-center">MI CLASE</ion-title>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-  </ion-toolbar>
-</ion-header>
-
-
-
-
-
-
 <ion-content [fullscreen]="true" class="background">
+
+  <ion-header >
+    
+      
+    <ion-card class="cardcontenido">
+   <ion-item>
+    <ion-title>SISTEMA DE ASITENCIA</ion-title>
+   <ion-img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png"/>
+   </ion-item>
+      </ion-card>
+      
+    
+   
+  
+  
+  </ion-header>
+  
   
 
+<ion-card class="cardcontenido">
 
+  <ion-card-title class="ion-text-center"> Quedaste presente</ion-card-title>
 
+  <ion-card > 
 
-  <ion-card>    
     <ion-item color="tertiary">
       <ion-label>Sede</ion-label>
       <ion-text>{{ datosQR.sede }}</ion-text>
     </ion-item>
-  </ion-card>
 
-  <ion-card> 
+ 
+
+ 
     <ion-item color="tertiary">
       <ion-label>ID Asignatura</ion-label>
       <ion-text>{{ datosQR.idAsignatura }}</ion-text>
     </ion-item>
-  </ion-card>  
 
-<ion-card> 
+
+ 
     <ion-item color="tertiary">
       <ion-label>Sección</ion-label>
       <ion-text>{{ datosQR.seccion }}</ion-text>
     </ion-item>
-  </ion-card>
+ 
 
-  <ion-card> 
+
     <ion-item color="tertiary">
       <ion-label>Nombre Asignatura</ion-label>
       <ion-text>{{ datosQR.nombreAsignatura }}</ion-text>
     </ion-item>
-  </ion-card>
 
-  <ion-card> 
+
+
     <ion-item color="tertiary">
       <ion-label>Nombre Profesor</ion-label>
       <ion-text>{{ datosQR.nombreProfesor }}</ion-text>
     </ion-item>
-  </ion-card>
+ 
 
-  <ion-card> 
+
     <ion-item color="tertiary"> 
       <ion-label>Día</ion-label>
       <ion-text>{{ datosQR.dia }}</ion-text>
     </ion-item>
-  </ion-card>
+ 
 
-  <ion-card> 
+  
     <ion-item color="tertiary">
       <ion-label>Bloque Inicio</ion-label>
       <ion-text>{{ datosQR.bloqueInicio }}</ion-text>
     </ion-item>
-  </ion-card>
+ 
 
-  <ion-card> 
+ 
     <ion-item color="tertiary">
       <ion-label>Bloque Término</ion-label>
       <ion-text>{{ datosQR.bloqueTermino }}</ion-text>
     </ion-item>
-  </ion-card>
 
-  <ion-card> 
+
+
     <ion-item color="tertiary">
       <ion-label>Hora Inicio</ion-label>
       <ion-text>{{ datosQR.horaInicio }}</ion-text>
     </ion-item>
-  </ion-card>
 
-  <ion-card> 
+
+
     <ion-item color="tertiary">
       <ion-label>Hora Fin</ion-label>
       <ion-text>{{ datosQR.horaFin }}</ion-text>
     </ion-item>
   </ion-card>
-  <ion-card> 
-    <ion-button expand="full" routerLink="/ingreso">Regresar</ion-button>
-  </ion-card>
+  
+</ion-card>
+
+
+  
+
+
+<ion-card class="cardcontenido">
+  <div class="container"> 
+    
+      
+
+    <ion-card-header >
+     
+      <ion-button expand="full" routerLink="/ingreso">Cerrar Sesión</ion-button>
+     
+    </ion-card-header>
+     
+  </div> 
+</ion-card>
+
 
     <!-- Continúa mostrando otros datos del QR aquí -->
 
@@ -95,8 +121,10 @@
 
 </ion-content>
 
-<ion-footer >
-  <ion-toolbar color="medium">
-    <ion-title class="ion-text-center">2023</ion-title>
-  </ion-toolbar>
+<ion-footer>
+  <div class="container">
+    
+    <h6   class="ion-text-center" >Genialtech since 2023</h6>
+    
+  </div>
 </ion-footer>

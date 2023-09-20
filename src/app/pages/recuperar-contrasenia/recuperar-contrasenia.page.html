@@ -1,17 +1,62 @@
 <!-- Página que muestra input donde debemos introducir
   el correo del cual queremos recuperar la contraseña -->
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Recuperar Contraseña</ion-title>
-    </ion-toolbar>
+  <ion-content [fullscreen]="true" class="background">
+  <ion-header >
+    
+      
+    <ion-card class="cardcontenido">
+      <ion-item>
+        <ion-title>RECUPERAR CONTRASEÑA</ion-title>
+        <ion-img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png"/>
+      </ion-item>
+    </ion-card> 
+   
+
   </ion-header>
   
-  <ion-content class="background">
-    <ion-item>
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input [(ngModel)]="correo" type="email"></ion-input>
-    </ion-item>
+
   
-    <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
-  </ion-content>
-  
+
+ <ion-card class="cardcontenido" color="light">
+  <div class="container"> 
+    
+      
+
+    <ion-card-header >
+      <ion-card-title class="ion-text-center">Ingresa tu correo</ion-card-title>
+      <ion-input  type="email" fill="clear" label="Email" labelPlacement="floating" errorText="Correo invalido" [(ngModel)]="correo" ></ion-input>
+      <ion-button expand="full" (click)="recuperarContrasena()">Recuperar Contraseña</ion-button>
+     
+    </ion-card-header>
+     
+  </div> 
+</ion-card>
+
+
+
+
+
+ <ion-card  color="light"class="cardcontenido">
+  <div class="container"> 
+    
+      
+
+    <ion-card-header >
+     
+      <ion-button expand="full" routerLink="/ingreso">Regresar</ion-button>
+     
+    </ion-card-header>
+     
+  </div> 
+</ion-card>
+
+
+
+</ion-content>
+  <ion-footer>
+    <div class="container">
+      
+      <h6   class="ion-text-center" >Genialtech since 2023</h6>
+      
+    </div>
+  </ion-footer>
