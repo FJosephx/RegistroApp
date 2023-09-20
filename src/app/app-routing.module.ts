@@ -40,10 +40,6 @@ const routes: Routes = [
     path: 'miclase',
     loadChildren: () => import('./pages/miclase/miclase.module').then( m => m.MiclasePageModule)
   },
-  {
-    path: 'contrasenia-correcta',
-    loadChildren: () => import('./pages/contrasenia-correcta/contrasenia-correcta.module').then( m => m.ContraseniaCorrectaPageModule)
-  },
 
 ];
 
