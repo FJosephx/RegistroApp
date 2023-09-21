@@ -33,7 +33,7 @@ export class InicioPage implements AfterViewInit {
       .duration(3000)
       .easing('ease')
       .delay(0)
-      .iterations(1)
+      .iterations(10)
       .fill('forwards')
       .keyframes([
         { offset: 0, transform: 'scale3d(1,1,1)' },
