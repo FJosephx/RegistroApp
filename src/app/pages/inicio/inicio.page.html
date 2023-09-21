@@ -1,37 +1,39 @@
 <!-- Página de inicio de sesión con correo y contraseña -->
-<ion-content  fullscreen class="background">
+<ion-content fullscreen class="background">
 
-  <ion-header >
-    
-      
-      <ion-card class="cardcontenido">
-     <ion-item>
-      <ion-title>SISTEMA DE ASITENCIA</ion-title>
-     <ion-img alt="DUOC UC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png"/>
-     </ion-item>
-        </ion-card> 
-     
+  <ion-header>
+
+
+    <ion-card class="cardcontenido">
+      <ion-item>
+        <ion-title>SISTEMA DE ASITENCIA</ion-title>
+        <ion-img alt="DUOC UC"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/711px-Logo_DuocUC.svg.png" />
+      </ion-item>
+    </ion-card>
+
 
   </ion-header>
 
   <br />
   <br />
   <br />
-  
+
 
 
   <ion-card class="cardcontenido">
-    
-    <ion-card-title class="ion-text-center" color="success">¡Bienvenido! {{ nombreUsuario }}</ion-card-title>
-   <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full">
-    <ion-icon slot="start" name="videocam-outline"></ion-icon>
-    Escanear QR
-   </ion-button>
 
-   <video #video [hidden]="!escaneando" width="100%" height="350px"></video>
-   <canvas #canvas hidden></canvas>
+    <ion-card-title #asistencia class="ion-text-center" color="success">¡Bienvenido! {{ nombreUsuario
+      }}</ion-card-title>
+    <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full">
+      <ion-icon slot="start" name="videocam-outline"></ion-icon>
+      Escanear QR
+    </ion-button>
 
-   <ion-button expand="full" routerLink="/ingreso">Cerrar Sesión</ion-button>
+    <video #video [hidden]="!escaneando" width="100%" height="350px"></video>
+    <canvas #canvas hidden></canvas>
+
+    <ion-button expand="full" routerLink="/ingreso">Cerrar Sesión</ion-button>
   </ion-card>
 
 
@@ -43,10 +45,8 @@
 
 <ion-footer>
   <div class="container">
-    
-    <h6   class="ion-text-center" >Genialtech since 2023</h6>
-    
+
+    <h6 class="ion-text-center">Genialtech since 2023</h6>
+
   </div>
 </ion-footer>
-
-

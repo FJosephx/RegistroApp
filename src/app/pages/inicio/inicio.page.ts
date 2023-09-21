@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AnimationController, IonItem, LoadingController } from '@ionic/angular';
 import jsQR, { QRCode } from 'jsqr';
 
 @Component({
@@ -8,7 +8,7 @@ import jsQR, { QRCode } from 'jsqr';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage {
+export class InicioPage implements AfterViewInit {
   nombreUsuario = '';
   private loading: HTMLIonLoadingElement | undefined;
   public escaneando = false;
@@ -16,12 +16,36 @@ export class InicioPage {
 
   @ViewChild('video', { static: false }) private video!: ElementRef;
   @ViewChild('canvas', { static: false }) private canvas!: ElementRef;
+  @ViewChild('asistencia', { read: ElementRef }) private asistencia!: ElementRef<HTMLIonCardTitleElement>
 
-  constructor(private router: Router, private loadingController: LoadingController) {
+
+  constructor(private router: Router, private loadingController: LoadingController, private animationController: AnimationController) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state && state['nombreUsuario']) {
       this.nombreUsuario = state['nombreUsuario'];
     }
+  }
+
+  public ngAfterViewInit(): void {
+    const animation = this.animationController
+      .create()
+      .addElement(this.asistencia.nativeElement)
+      .duration(3000)
+      .easing('ease')
+      .delay(0)
+      .iterations(1)
+      .fill('forwards')
+      .keyframes([
+        { offset: 0, transform: 'scale3d(1,1,1)' },
+        { offset: 0.3, transform: 'scale3d(1.25,0.75,1)' },
+        { offset: 0.4, transform: 'scale3d(0.75,1.25,1)' },
+        { offset: 0.5, transform: 'scale3d(1.15,0.85,1)' },
+        { offset: 0.65, transform: 'scale3d(0.95,1.05,1)' },
+        { offset: 0.75, transform: 'scale3d(1.05,0.95,1)' },
+        { offset: 1, transform: 'scale3d(1,1,1)' },
+      ]);
+
+    animation.play();
   }
 
 
