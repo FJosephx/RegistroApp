@@ -79,7 +79,7 @@ export class RecuperarContraseniaPage {
       });
     } else {
       // Correo no encontrado, mostrar mensaje de error
-      this.mostrarToast('Correo no encontrado.');
+      this.router.navigate(['/contrasenia-incorrecta']);
     }
 
   }
